@@ -1,3 +1,9 @@
+<script>
+    // 判断本地存储中是否有token, 如果没有 说明没有登录，则跳转到登录页面
+    if (localStorage.getItem('token') === null) {
+        location.href = '/login.html';
+    }
+</script>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -34,7 +40,9 @@
                         <dd><a href="">重置密码</a></dd>
                     </dl>
                 </li>
-                <li class="layui-nav-item"><a href=""><i class="layui-icon layui-icon-logout"></i>退出</a></li>
+                <li class="layui-nav-item"><a href="javascript:;" id="logout"><i
+                            class="layui-icon layui-icon-logout"></i>退出</a>
+                </li>
             </ul>
         </div>
 
@@ -42,7 +50,7 @@
             <div class="layui-side-scroll">
                 <div class="userinfo">
                     <span class="text-atar"></span>
-                    <!-- <img src="http://t.cn/RCzsdCq" class="layui-nav-img"> -->
+                    <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
                     欢迎&nbsp;&nbsp;<span class="myname">赵晓飞</span>
                 </div>
                 <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
