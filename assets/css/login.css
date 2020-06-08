@@ -7,6 +7,7 @@ body {
 body {
     background: url('/assets/images/login_bg.jpg') no-repeat;
     background-size: cover;
+    overflow: hidden;
 }
 
 /* logo区域 */
