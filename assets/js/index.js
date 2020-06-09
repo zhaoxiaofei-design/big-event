@@ -64,6 +64,7 @@ function getUserInfo() { // 完成ajax请求，
         // 设置请求头
         headers: {
             'Authorization': localStorage.getItem('token')
+
         }
     });
 }
