@@ -1,0 +1,13 @@
+/* 表单与body之间的间距 */
+body {
+    background-color: #f2f3f5;
+}
+
+.layui-card {
+    margin: 20px;
+}
+
+/* 密码表单框 */
+form {
+    width: 500px;
+}
