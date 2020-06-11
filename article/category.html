@@ -11,6 +11,8 @@
 
     <!-- 加载jQuery -->
     <script src="/assets/lib/jquery.js"></script>
+    <!-- 加载layui.all.js -->
+    <script src="/assets/lib/layui/layui.all.js"></script>
     <!-- 加载模板引擎JS文件 -->
     <script src="/assets/lib/template-web.js"></script>
     <!-- 加载common.js文件 -->
@@ -54,7 +56,8 @@
             <td>{{val.alias}}</td>
             <td>
                 <button type="button" class="layui-btn layui-btn-xs">编辑</button>
-                <button type="button" class="layui-btn layui-btn-xs layui-btn-danger">删除</button>
+                <button type="button" class="layui-btn layui-btn-xs layui-btn-danger delete"
+                    data-id="{{val.Id}}">删除</button>
             </td>
         </tr>
         {{/each}}
