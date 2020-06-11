@@ -43,7 +43,7 @@ $(function () {
             .toDataURL('image/png') // 将 Canvas 画布上的内容，转化为 base64 格式的字符串
         $.ajax({
             type: 'POST',
-            url: 'http://www.liulongbin.top:3007/my/update/avatar',
+            url: '/my/update/avatar',
             data: {
                 avatar: dataURL
             },
@@ -54,18 +54,6 @@ $(function () {
                     window.parent.getUserInfo();
                 }
             },
-            // my接口  带token
-            headers: {
-                'Authorization': localStorage.getItem('token')
-            },
-            complete: function (xhr) { // 判断token是否失效
-                if (xhr.responseJSON.status === 1 && xhr.responseJSON.message === '身份认证失败！') {
-                    // 清除过期 或者无效的token
-                    localStorage.removeItem('token');
-                    // 跳转到登录页  window表示当前窗口
-                    window.parent.location.href = '/login.html';
-                }
-            }
         });
     });
 });

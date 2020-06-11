@@ -6,7 +6,7 @@ function renderUser() {
     // 获取用户信息  为表单赋值
     $.ajax({
         type: 'GET',
-        url: 'http://www.liulongbin.top:3007/my/userinfo',
+        url: '/my/userinfo',
         success: function (res) {
             if (res.status === 0) { // 如果获取数据成功
                 // 数据是 res.data
@@ -21,18 +21,6 @@ function renderUser() {
                 form.val('source', res.data); // 第二个参数是需要赋值的数据
             }
         },
-        // my接口  带token
-        headers: {
-            'Authorization': localStorage.getItem('token')
-        },
-        complete: function (xhr) { // 判断token是否失效
-            if (xhr.responseJSON.status === 1 && xhr.responseJSON.message === '身份认证失败！') {
-                // 清除过期 或者无效的token
-                localStorage.removeItem('token');
-                // 跳转到登录页  window表示当前窗口
-                window.parent.location.href = '/login.html';
-            }
-        }
     });
 }
 // 入口函数
@@ -49,7 +37,7 @@ $(function () {
         // 3.Ajax提交给接口
         $.ajax({
             type: 'POST',
-            url: 'http://www.liulongbin.top:3007/my/userinfo',
+            url: '/my/userinfo',
             data: data,
             success: function (res) {
                 // 2.更新完成之后 （看案例效果）
@@ -58,18 +46,6 @@ $(function () {
                 // 更新欢迎语 调用父页面的一个函数 getUserInfo();
                 window.parent.getUserInfo();
             },
-            // my接口  带token
-            headers: {
-                'Authorization': localStorage.getItem('token')
-            },
-            complete: function (xhr) { // 判断token是否失效
-                if (xhr.responseJSON.status === 1 && xhr.responseJSON.message === '身份认证失败！') {
-                    // 清除过期 或者无效的token
-                    localStorage.removeItem('token');
-                    // 跳转到登录页  window表示当前窗口
-                    window.parent.location.href = '/login.html';
-                }
-            }
         });
     });
 

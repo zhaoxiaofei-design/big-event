@@ -36,7 +36,7 @@ $(function () {
         // Ajax提交原密码和新密码
         $.ajax({
             type: 'POST',
-            url: 'http://www.liulongbin.top:3007/my/updatepwd',
+            url: '/my/updatepwd',
             // this 指向表单
             data: $(this).serialize(), // 使用serialize方法时，一定要检查表单各项的name
             success: function (res) {
@@ -48,18 +48,6 @@ $(function () {
                     $('form')[0].reset();
                 }
             },
-            // my接口 需要请求头,带token
-            headers: {
-                'Authorization': localStorage.getItem('token')
-            },
-            complete: function (xhr) { // 判断token是否失效
-                if (xhr.responseJSON.status === 1 && xhr.responseJSON.message === '身份认证失败！') {
-                    // 清除过期 或者无效的token
-                    localStorage.removeItem('token');
-                    // 跳转到登录页  window表示当前窗口
-                    window.parent.location.href = '/login.html';
-                }
-            }
         });
     });
 });
