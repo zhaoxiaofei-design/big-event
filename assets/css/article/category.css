@@ -14,3 +14,8 @@ body {
     /* 垂直居中对齐 */
     align-items: center;
 }
+
+/* #tpl-add form {
+    display: inline-block;
+    width: 400px;
+} */
