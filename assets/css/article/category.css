@@ -1,0 +1,16 @@
+body {
+    background-color: #f2f3f5;
+}
+
+.layui-card {
+    margin: 20px;
+}
+
+/* 控制按钮两端对齐 */
+.layui-card-header {
+    display: flex;
+    /* 盒子里面的内容两端对齐 */
+    justify-content: space-between;
+    /* 垂直居中对齐 */
+    align-items: center;
+}
