@@ -1,5 +1,12 @@
 // 入口函数
 $(function () {
+
+    // 获取地址栏的id（文章的id）
+    /* JS内置对象 URLSearchParams，专门用于处理url中的参数
+        new URLSearchParams(location.search).get('id');
+    */
+    var id = location.search.replace(/\D/g, '');
+
     // 下拉框不显示，加载form模块
     var form = layui.form;
 
@@ -12,12 +19,28 @@ $(function () {
 
             // 模板引擎处理完之后，重新渲染select
             form.render('select'); // 更新渲染
+
+            //////////////////////////////////
+            // （嵌套） 保证分类渲染完毕，再去请求文章，然后为表单赋值
+            // 根据id获取当前这篇文章详情
+            $.ajax({
+                url: '/my/article/' + id,
+                success: function (res) {
+                    // 快速为表单赋值 （数据回填、设置输入框、下拉框等默认值）
+                    form.val('edit-form', res.data); // res.data 是获取的对象
+
+                    // 需要自己更换剪裁区的图片
+                    $image.cropper('destroy').attr('src', 'http://www.liulongbin.top:3007' + res.data.cover_img).cropper(options);
+
+                    // 等为表单赋值之后，再生成富文本编辑器
+                    // -- 富文本编辑器 替换内容区 -------------------------------
+                    // 1. 修改内容区的多行文本域的name为content
+                    initEditor();
+                }
+            });
         }
     });
 
-    // 富文本编辑器 替换内容区
-    // 1. 修改内容区的多行文本域的name为content
-    initEditor();
 
     // ---------------------- 图片处理 -----------------------------------------
     // 实现基本的剪裁效果
@@ -27,7 +50,9 @@ $(function () {
     // 2. 裁剪选项
     var options = {
         aspectRatio: 400 / 280,
-        preview: '.img-preview'
+        preview: '.img-preview',
+        // 默认值0.8,0-1之间的数值，定义自动剪裁区域的大小
+        autoCropArea: 1
     }
 
     // 3. 初始化裁剪区域
@@ -63,7 +88,7 @@ $(function () {
 
 
 
-    // ---------。。。----------- 实现文章发布 -------------------------------------
+    // ---------。。。----------- 实现文章修改 -------------------------------------
     $('form').on('submit', function (e) {
         // 阻止表单提交行为
         e.preventDefault();
@@ -73,6 +98,10 @@ $(function () {
         var data = new FormData(this); // 修改表单各项的name 分别为title、cate_id、content
         // 追加 state
         data.append('state', s);
+        // 追加 Id
+        data.append('Id', id); // id 值是地址栏获取的
+        // 更新内容 tinyMCE.activeEditor.getContent() 是富文本编辑器获取内容的方法
+        data.set('content', tinyMCE.activeEditor.getContent());
         // 裁剪图片 得到canvas 画布
         var canvas = $image.cropper('getCroppedCanvas', {
             // 大小根据 前面的 "剪裁选项"
@@ -89,9 +118,10 @@ $(function () {
                 console.log(ele);
 
             }
+            // return;
             // ajax提交给接口
             $.ajax({
-                url: '/my/article/add',
+                url: '/my/article/edit',
                 type: 'POST',
                 data: data,
                 // 提交 FormData对象，必须指定两个false
