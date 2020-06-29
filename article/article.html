@@ -88,17 +88,18 @@
         </div>
     </div>
 
+    <!-- <td>{{val.cate_name | 过滤器函数}}</td> -->
     <!-- 文章列表模板 -->
     <script type="text/html" id="tpl-article">
         {{each data val}}
         <tr>
             <td>{{val.title}}</td>
-            <td>{{val.cate_name}}</td>
-            <td>{{val.pub_date}}</td>
+            <td>{{val.cate_name | add123}}</td>
+            <td>{{val.pub_date | formatDate}}</td>
             <td>{{val.state}}</td>
             <td>
                 <a href="/article/edit.html?id={{val.Id}}" target="fm" class="layui-btn layui-btn-xs">编辑</a>
-                <button type="button" class="layui-btn layui-btn-xs layui-btn-danger">删除</button>
+                <button data-id="{{val.Id}}" type="button" class="layui-btn layui-btn-xs layui-btn-danger delete">删除</button>
             </td>
         </tr>
         {{/each}}

@@ -18,7 +18,8 @@ $(function () {
         // ajax提交账号和密码到接口
         $.ajax({
             type: "POST",
-            url: "http://www.liulongbin.top:3007/api/reguser",
+            //  url: "http://www.liulongbin.top:3007/api/reguser",
+            url: "http://localhost:3008/api/reguser",
             data: data,
             // dataType: "dataType",
             success: function (res) {
@@ -62,7 +63,7 @@ $(function () {
         // ajax提交账号和密码
         $.ajax({
             type: "POST",
-            url: "http://www.liulongbin.top:3007/api/login",
+            url: "http://localhost:3008/api/login",
             data: $(this).serialize(),
             // dataType: "dataType",
             success: function (res) {

@@ -3,7 +3,7 @@ $(function () {
     // $.ajaxPrefilter
     $.ajaxPrefilter(function (option) {
         // option 就是ajax选项
-        option.url = 'http://www.liulongbin.top:3007' + option.url;
+        option.url = 'http://localhost:3008' + option.url;
         // 在ajax请求完成之后触发
         option.complete = function (xhr) {
             // 判断身份认证是否成功

@@ -24,6 +24,11 @@ $(function () {
             data: data,
             success: function (res) {
                 if (res.status === 0) {
+                    // 把时间处理成正常的格式
+                    /* res.data.forEach(function (item, index) {
+                        res.data[index].pub_date = formatDate(res.data[index].pub_date);
+
+                    }); */
                     // 调用模板引擎渲染文章列表
                     var str = template('tpl-article', res); // 第一个参数是模板id，第二个参数是值
                     $('tbody').html(str);
@@ -97,4 +102,48 @@ $(function () {
         // 调用renderArticle，重新获取数据
         renderArticle();
     });
+
+    // ---------------------------------- 删除文章区 -----------------------------
+    $('body').on('click', 'delete', function () {
+        var that = $(this);
+        // 询问是否要删除
+        layer.confirm('是否要删除？', function (index) {
+            // 点击了确定 获取文章的id
+            var id = attr("data-id");
+            $.ajax({
+                url: '/my/article/delete/' + id,
+                success: function (res) {
+                    layer.msg(res.message);
+                    if (res.status === 0) {
+                        renderArticle();
+                    }
+                }
+            });
+            layer.close(index);
+        });
+    });
+
+    // 模板引擎的过滤器功能
+    template.defaults.import.add123 = function (value) {
+        // return '123' + value;
+        return '<span style="color:red;">' + value + '</span>'
+    }
+    // ---------------------------------- 转换时间格式的函数 -----------------------------
+    // 形参 x 就是传进来的时间
+    function formatDate(x) {
+        var d = new Date(x);
+        var year = d.getFullYear();
+        var month = addZero(d.getMonth() + 1);
+        var day = addZero(d.getDate());
+        var hour = addZero(d.getHours());
+        var minute = addZero(d.getMinutes());
+        var second = addZero(d.getSeconds());
+        return year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second;
+
+    }
+    // 补零函数
+    template.defaults.import.formatData = function addZero(n) {
+        return n < 0 ? '0' + n : n;
+
+    }
 });
